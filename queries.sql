@@ -27,3 +27,51 @@ join category as c
 join supplier as s
     on p.SupplierId = s.id    
 order by c.CategoryName;
+
+--return no repeating values
+select distinct user_id from posts;
+
+--list all users and post information if available
+--list all users that have posts, and all users that do not have posts
+select u.username as Writer, p.contents as Quote
+from users as u 
+left join posts as p 
+on p.user_id = u.id;
+
+--list all users that do have posts
+select distinct u.username as Writer
+from users as u left join posts as p on p.user_id = u.id
+where p.contents is null
+;
+
+--list all users that don't have post
+select distinct u.username as Writer
+from users as u left join posts as p on p.user_id = u.id
+where p.contents is not null
+;
+
+--is === [===]
+--is not === !=
+--'colums as' does not affect the sql calls only the render name
+
+
+--list all users that have posts
+select distinct u.username
+from users as u 
+inner join posts as p
+    on u.id = p.user_id
+order by u.username;
+
+--and all users that do not have posts
+select distinct u.username
+from users as u
+left join posts as p
+    on u.id = p.user_id
+where p.id is null
+order by u.username;    
+
+select user_id, count(*) as total from posts
+group by user_id; -- like pilling up coins per denomination
+
+select denomination, sum(value) as total from coins
+group by denomination; -- piling up coins per denomination

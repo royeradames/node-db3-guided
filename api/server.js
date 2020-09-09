@@ -14,12 +14,20 @@ server.use("/api/users", UserRouter);
 
 server.get('/api/posts', (req, res) => {
     /*
-    select contents as Quote, username as QuoteBy
+    select p.contents as Quote, u.username as PostedBy
     from users as u
     join posts as p
         on p.user_id = u.id;
     */
-    db('posts as p').join('users as u', 'p.user_id', 'u.id').select('contents as Quote, username as QuoteBy')
+    db('posts as p')
+    .join('users as u', 'p.user_id', 'u.id')
+    .select('p.contents as Quote', 'u.username as PostedBy')
+    .then(posts => {
+        res.status(200).json({data: posts})
+    })
+    .catch(error => {
+        res.status(500).json({error: error.message})
+    })
 })
 
 module.exports = server;
