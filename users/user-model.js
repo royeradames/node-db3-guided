@@ -1,3 +1,5 @@
+// helper functions
+// not writing big fuctions
 const db = require("../data/db-config.js");
 
 module.exports = {
